@@ -1,0 +1,63 @@
+﻿@typeparam Titem
+
+
+@if (Listado == null)
+{
+
+
+    @if (Cargando == null)
+    {
+        /*<img src="https://acegif.com/wp-content/uploads/loading-4.gif" width="100" />   */
+        <text>Cargando...</text>
+
+    }
+    else
+    {
+        @Cargando
+    }
+
+
+
+}
+else if (Listado.Count == 0)
+{
+    @if (NoHayContenido == null)
+    {
+        <text>No hay Contenido para mostrar...</text>
+    }
+    else
+    {
+        @NoHayContenido
+    }
+}
+else
+{
+    if (HayContenido != null)
+    {
+        foreach (var elemento in Listado)
+        {
+            @HayContenido(elemento)
+        }
+
+    }
+    else
+    {
+        @HayContenidoCompleto
+    }
+
+
+
+
+}
+
+
+
+
+@code {
+    [Parameter] public RenderFragment Cargando { get; set; }
+    [Parameter] public RenderFragment NoHayContenido { get; set; }
+    [Parameter] public RenderFragment<Titem> HayContenido { get; set; }
+    [Parameter] public RenderFragment HayContenidoCompleto { get; set; }
+    [Parameter] public List<Titem> Listado { get; set; }
+
+}

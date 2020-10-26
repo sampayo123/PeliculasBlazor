@@ -1,0 +1,30 @@
+﻿@page "/personas/crear"
+@inject IRepositorio repositorio
+@inject NavigationManager navigationManager
+@inject IMostrarMensajes mostrarMensaje
+@attribute [Authorize(Roles = "admin")]
+
+<h3>Crear Personas</h3>
+
+<FormularioPersonas OnvalidSubmit="Crear" Persona="Persona"></FormularioPersonas>
+
+@code {
+    private Persona Persona = new Persona();
+
+    async Task Crear()
+    {
+        var httpResponse = await repositorio.Post("api/personas", Persona);
+        if (httpResponse.Error)
+        {
+            Console.WriteLine("Error es en CrearpersonaRazor");
+            await mostrarMensaje.MostrarMensajeError(await httpResponse.GetBody());
+        }
+        else
+        {
+            navigationManager.NavigateTo("/personas");
+        }
+    }
+
+
+
+}
